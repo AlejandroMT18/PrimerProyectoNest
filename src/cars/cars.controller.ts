@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
-import { createCarDto } from './dto/create-car.dto';
+import { createCarDto, updateCarDto } from './dto';
 
 @Controller('cars')
 // Validador a nivel de Controlador
@@ -41,22 +41,19 @@ export class CarsController {
   // Validador a nivel de método
   // @UsePipes(ValidationPipe)
   createCar(@Body() car: createCarDto) {
-    return { data: car, message: 'Post' };
+    return this.carsService.create(car);
   }
 
   @Patch(':id')
   updateCar(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Body() body: any,
+    @Body() updateCar: updateCarDto,
   ) {
-    return {
-      data: body,
-      message: 'Patch',
-    };
+    return this.carsService.update(id, updateCar);
   }
 
   @Delete(':id')
   deleteCar(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    return { id_deleted: id, message: 'Delete' };
+    return this.carsService.delete(id);
   }
 }
