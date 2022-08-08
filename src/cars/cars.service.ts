@@ -5,23 +5,7 @@ import { Car } from './interfaces/car.interface';
 
 @Injectable()
 export class CarsService {
-  private cars: Car[] = [
-    {
-      id: uuid(),
-      brand: 'Toyota',
-      model: 'Corolla',
-    },
-    {
-      id: uuid(),
-      brand: 'Honda',
-      model: 'Civic',
-    },
-    {
-      id: uuid(),
-      brand: 'Jeep',
-      model: 'Cherokee',
-    },
-  ];
+  private cars: Car[] = [];
 
   findAll() {
     if (!this.cars) throw new NotFoundException('No cars found');
@@ -80,5 +64,9 @@ export class CarsService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const car = this.findById(id);
     this.cars = this.cars.filter((car) => car.id !== id);
+  }
+
+  fillCarsWithSeedData(cars: Car[]) {
+    this.cars = cars;
   }
 }
